@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.mapper.GradeMapper">
+
+    <insert id="insertGrade" parameterType="grade">
+        insert into lesson.grade (cid,cname,sid,sname,grade) values (#{cid},#{cname},#{sid},#{sname},#{grade})
+        delete from lesson.apply where cid=#{cid} and sid=#{sid}
+    </insert>
+
+    <update id="modifyGrade" parameterType="grade">
+        update lesson.grade set grade=#{grade} where cid=#{cid} and sid=#{sid}
+    </update>
+
+    <select id="queryCreditsSum">
+        select sum(c.credit)
+        from lesson.grade as g
+        inner join lesson.course as c
+        on g.cid=c.cid
+        where g.sid=#{sid} and g.grade>=60
+    </select>
+    
+    <select id="getEedCourseBySid" parameterType="map" resultType="list">
+        select * from lesson.grade where sid=#{sid} limit #{pageNo},#{pageSize}
+    </select>
+</mapper>

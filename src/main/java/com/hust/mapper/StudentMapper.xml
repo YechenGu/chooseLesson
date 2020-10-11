@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.mapper.StudentMapper">
+
+    <insert id="insertStudent" parameterType="student">
+        insert into lesson.student(sid,sname,pwd) values (#{sid},#{sname},#{pwd})
+    </insert>
+
+    <delete id="deleteStudent">
+        delete from lesson.student where sid=#{sid}
+    </delete>
+    
+    <select id="getBySid">
+        select * from lesson.student where sid=#{sid}
+    </select>
+    
+    <select id="getBySname" parameterType="map" resultType="list">
+        select * from lesson.student where sname like "%"#{sname}"%" limit #{pageNo},#{pageSize}
+    </select>
+
+    <select id="getStudents" parameterType="map" resultType="list">
+        select * from lesson.student limit #{pageNo},#{pageSize}
+    </select>
+
+    <select id="queryByNamePwd" resultType="student">
+        select * from lesson.student where sid=#{sid} and sname=#{sname}
+    </select>
+</mapper>

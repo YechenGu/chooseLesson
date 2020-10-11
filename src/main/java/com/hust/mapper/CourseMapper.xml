@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.mapper.CourseMapper">
+
+    <select id="insertCourse" parameterType="course">
+        INSERT into lesson.course(cid,cname,classroom,startWeek,endWeek,startLesson,endLesson,credit,hours,capacity,tid)
+        values (#{cid},#{cname},#{classroom},#{startWeek},#{endWeek},#{startLesson},#{endLesson},#{credit},#{hours},#{capacity},#{tid})
+    </select>
+
+    <delete id="deleteCourse">
+        delete from lesson.course where cid=#{cid}
+    </delete>
+
+    <select id="getByCouCid" resultType="course">
+        select * from lesson.course where cid=#{cid}
+    </select>
+
+    <select id="selectCourseBySql" parameterType="map" resultType="list">
+        select * from lesson.course as c
+        where c.cid not in(
+            select a.cid from lesson.apply as a
+            where a.sid=#{sid}
+        )
+        limit #{pageNo},#{pageSize}
+    </select>
+
+    <select id="getByCourseCname" parameterType="map" resultType="list">
+        select * from lesson.course where cname like "%"#{cname}"%" limit #{pageNo},#{pageSize}
+    </select>
+</mapper>
